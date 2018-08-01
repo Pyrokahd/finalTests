@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<race name="human">
+    <level name="1">
+        <abilities>
+            <ability name="maches" lang="de">
+                Hier mach dinge und so
+            </ability>
+        </abilities>
+    </level>
+</race>

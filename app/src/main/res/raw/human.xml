@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<race name="human">
+    <level name="1">
+        <abilities>
+            <ability name="ability1"/>
+            <ability name="ability2"/>
+            <ability name="ability3">
+                <choice name="ability3_choice1"/>
+                <choice name="ability3_choice2"/>
+                <choice name="ability3_choice3"/>
+            </ability>
+        </abilities>
+    </level>
+</race>
