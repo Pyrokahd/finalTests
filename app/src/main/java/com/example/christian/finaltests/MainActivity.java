@@ -17,6 +17,7 @@ import java.io.InputStream;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,16 +28,28 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        System.out.println("##########1");
         TextView textView = (TextView) findViewById(R.id.textView1);
         parseXML();
+
+        System.out.println("TESTING LANGUAGE##### " + Locale.getDefault().getDisplayLanguage().toString());
+        System.out.println("TESTING LANGUAGE##### " + Locale.getDefault().getLanguage().toString());
     }
 
     private void parseXML(){
+        System.out.println("##########2");
         XmlPullParserFactory parserFactory;
+        InputStream is;
         try {
             parserFactory = XmlPullParserFactory.newInstance();
             XmlPullParser parser = parserFactory.newPullParser();
-            InputStream is = getAssets().open("human_en.xml");
+            if(Locale.getDefault().getDisplayLanguage().toString().equals("Deutsch")){
+                is = getResources().openRawResource(R.raw.human_de);
+            }
+            else {
+                is = getResources().openRawResource(R.raw.human_en);
+            }
+
             parser.setFeature(XmlPullParser.FEATURE_PROCESS_NAMESPACES,false);
             parser.setInput(is,null);
             processParsing(parser);
@@ -49,18 +62,25 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void processParsing(XmlPullParser parser) throws XmlPullParserException, IOException {
+        StringBuilder sb = new StringBuilder();
+
         int eventType = parser.getEventType();
-        System.out.println("hier alles zeuch VOR WHILE/n");
+        System.out.println("##########3");
         while(eventType != XmlPullParser.END_DOCUMENT){
-            switch(eventType){
-                case XmlPullParser.START_DOCUMENT:
-                    System.out.println("hier alles zeuch/n");
-                    System.out.println(parser.getName());
-                    System.out.println(parser.getText());
-                    break;
+            if(eventType==XmlPullParser.START_TAG){
+                sb.append(parser.getName() + " "+ parser.getAttributeValue(null,"name"));
+
             }
+            if(eventType==XmlPullParser.END_TAG){
+                sb.append(parser.getName());
+            }
+            if(eventType==XmlPullParser.TEXT){
+                sb.append(parser.getText());
+            }
+            //
             eventType = parser.next();
         }
+        System.out.println(sb.toString());
     }
 
 
